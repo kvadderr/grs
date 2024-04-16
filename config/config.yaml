@@ -1,0 +1,11 @@
+env: "local"
+grpc:
+  port: 4000
+http:
+  port: 4050
+database:
+  name: "grpc"
+  host: "localhost"
+  user: "postgres"
+  password: "postgres"
+secret: "secret_key"

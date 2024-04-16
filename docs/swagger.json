@@ -1,0 +1,255 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Http proxy server",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/getToken": {
+            "post": {
+                "description": "проверяет наличие пользователя с таким email и password, в случае наличия генерирует jwt токен с его email на один час",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "возвращает jwt токен",
+                "parameters": [
+                    {
+                        "description": "body data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/server.GetUserDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/server.GetTokenResponseDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/server.GetTokenResponseDto"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.GetTokenResponseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/getUser": {
+            "post": {
+                "description": "проверяет наличие пользователя с таким email и password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "проверяет наличие пользователя",
+                "parameters": [
+                    {
+                        "description": "body data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/server.GetUserDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/server.ResponseDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/server.ResponseDto"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.ResponseDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "регистрирует нового пользователя на основе уникальности email и phone",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "регистрирует нового пользователя",
+                "parameters": [
+                    {
+                        "description": "body data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/server.RegisterResponseDto"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/server.RegisterResponseDto"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.RegisterResponseDto"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entities.User": {
+            "type": "object",
+            "required": [
+                "email",
+                "nickname",
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "study": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "telegram": {
+                    "type": "string"
+                },
+                "work": {
+                    "type": "string"
+                }
+            }
+        },
+        "server.GetTokenResponseDto": {
+            "type": "object",
+            "properties": {
+                "errorMessage": {
+                    "type": "string",
+                    "example": "bad request"
+                },
+                "result": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "server.GetUserDto": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "server.RegisterResponseDto": {
+            "type": "object",
+            "properties": {
+                "errorMessage": {
+                    "type": "string",
+                    "example": "bad request"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "result": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "server.ResponseDto": {
+            "type": "object",
+            "properties": {
+                "errorMessage": {
+                    "type": "string",
+                    "example": "bad request"
+                },
+                "result": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,171 @@
+definitions:
+  entities.User:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      nickname:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      study:
+        type: string
+      surname:
+        type: string
+      telegram:
+        type: string
+      work:
+        type: string
+    required:
+    - email
+    - nickname
+    - password
+    - phone
+    type: object
+  server.GetTokenResponseDto:
+    properties:
+      errorMessage:
+        example: bad request
+        type: string
+      result:
+        example: true
+        type: boolean
+      token:
+        type: string
+    type: object
+  server.GetUserDto:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  server.RegisterResponseDto:
+    properties:
+      errorMessage:
+        example: bad request
+        type: string
+      id:
+        example: 1
+        type: integer
+      result:
+        example: true
+        type: boolean
+    type: object
+  server.ResponseDto:
+    properties:
+      errorMessage:
+        example: bad request
+        type: string
+      result:
+        example: true
+        type: boolean
+    type: object
+info:
+  contact: {}
+  title: Http proxy server
+  version: "1.0"
+paths:
+  /getToken:
+    post:
+      consumes:
+      - application/json
+      description: проверяет наличие пользователя с таким email и password, в случае
+        наличия генерирует jwt токен с его email на один час
+      parameters:
+      - description: body data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/server.GetUserDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.GetTokenResponseDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.GetTokenResponseDto'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.GetTokenResponseDto'
+      summary: возвращает jwt токен
+      tags:
+      - Users
+  /getUser:
+    post:
+      consumes:
+      - application/json
+      description: проверяет наличие пользователя с таким email и password
+      parameters:
+      - description: body data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/server.GetUserDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.ResponseDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.ResponseDto'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.ResponseDto'
+      summary: проверяет наличие пользователя
+      tags:
+      - Users
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: регистрирует нового пользователя на основе уникальности email и
+        phone
+      parameters:
+      - description: body data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entities.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/server.RegisterResponseDto'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.RegisterResponseDto'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.RegisterResponseDto'
+      summary: регистрирует нового пользователя
+      tags:
+      - Users
+swagger: "2.0"

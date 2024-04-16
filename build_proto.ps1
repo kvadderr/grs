@@ -1,0 +1,1 @@
+protoc --proto_path=contracts/proto --go_out=generated api.proto --go_opt=paths=source_relative --go-grpc_out=generated --go-grpc_opt=paths=source_relative

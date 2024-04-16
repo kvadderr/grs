@@ -1,0 +1,128 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "github.com/golang-grpc-proxy";
+
+service Api {
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc GetUser (GetUserRequest) returns (GetUserResponse);
+    rpc GetToken (GetTokenRequest) returns (GetTokenResponse);
+    rpc GetContent (GetContentRequest) returns (GetContentResponse);
+}
+
+message RegisterRequest {
+    string nickname = 1;
+    string email = 2;
+    string phone = 3;
+    string password = 4;
+    optional string first_name = 5;
+    optional string surname = 6;
+    optional string last_name = 7;
+    optional string work = 8;
+    optional string study = 9;
+    optional string telegram = 10;
+}
+
+message RegisterResponse {
+    bool result = 1;
+    string error_message = 2;
+    int64 id = 3;
+}
+
+message GetUserRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message GetUserResponse {
+    bool result = 1;
+    string error_message = 2;  
+}
+
+message GetTokenRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message GetTokenResponse {
+    bool result = 1;
+    string error_message = 2;
+    string token = 3;
+}
+
+message GetContentRequest {
+    string token = 1;
+    string query = 2;
+    optional string order = 3;
+    optional string after = 4;
+    optional string textmode = 5;
+    optional int64 offset = 6;
+    optional uint32 limit = 7;
+    repeated string type = 8;
+    repeated string platform = 9;
+    optional string cursor = 10;
+}
+
+message GetContentResponse {
+    bool result = 1;
+    string error_message = 2;
+    ContentResponse content = 3;
+    GetContentRequest request = 4;
+    string cursor = 6;
+}
+
+message ContentResponse {
+    uint64 timestamp = 1;
+    int64 time_post_snippets = 2;
+    string source = 3;
+    int64 offset = 4;
+    string cache_key = 5;
+    int64 time_pre_snippets = 6;
+    string status = 7;
+    uint64 time_cassandra = 8;
+    uint64 total = 9;
+    uint64 count = 10;
+    uint64 time_all = 11;
+    uint64 time_snippets = 12;
+    int64 last_search = 13;
+    int64 id = 14;
+    string count_type = 15;
+    repeated ContentPost posts = 16;
+}
+
+message ContentPost {
+    string url = 1;
+    string author_name = 2;
+    string platform = 3;
+    string url_ui = 4;
+    string cluster_id = 5;
+    string author_extid = 6;
+    string lang_primary = 7;
+    string yauid = 8;
+    string title = 9;
+    string platform_ui = 10;
+    string author_login = 11;
+    string snippet = 12;
+    string owner_name = 13;
+    string lang_secondary = 14;
+    string owner_login = 15;
+    string body = 16;
+    string yauid_i = 17;
+    string owner_extid = 18;
+    string type = 19;
+    uint64 ptime = 20;
+    uint32 nduplicates = 21;
+    uint64 nlikes = 22;
+    uint64 nviews = 23;
+    uint64 nshares = 24;
+    uint32 platform_type = 25;
+    uint64 author_followers_count = 26;
+    uint64 snippet_cropped = 27;
+    uint64 nimages = 28;
+    uint64 ctime = 29;
+    uint64 ncomments = 30;
+    repeated string langs = 31;
+    repeated string images = 32;
+    repeated string geo_rubr = 33;
+}
